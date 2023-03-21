@@ -96,35 +96,32 @@ class AdditiveLayerStore(LayerStore):
 
     def add(self, layer: Layer) -> bool:
         self.layer_store.append(layer)
-        return self.la
+        return True
 
     def erase(self, layer: Layer) -> bool:
         self.layer_store.serve()
+        return True
 
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
         color=start
-        if self.reverse:
-            temp_stack = ArrayStack(len(self.layer_store))
-            while self.layer_store.is_empty() == False:
-                layer = self.layer_store.serve()
-                color = layer.apply(color,timestamp,x,y)
-                temp_stack.push(layer)
-            while temp_stack.is_empty() == False:
-                layer = temp_stack.pop()
-                self.layer_store.append(layer)
-        else:
-            temp_queue= CircularQueue( len(self.layer_store) )
-            while self.layer_store.is_empty() == False: #serving it and applying color one by one, this loop empties the self.layer_store
-                layer = self.layer_store.serve()
-                color = layer.apply(color,timestamp,x,y)
-                temp_queue.append(layer)
-            while temp_queue.is_empty() == False: #storing all the colors back into self.layer_store
-                layer = temp_queue.serve()
-                self.layer_store.append(layer)
+        temp_queue = CircularQueue(len(self.layer_store))
+        while self.layer_store.is_empty() == False:  # serving it and applying color one by one, this loop empties the self.layer_store
+            layer = self.layer_store.serve()
+            color = layer.apply(color, timestamp, x, y)
+            temp_queue.append(layer)
+        while temp_queue.is_empty() == False:  # storing all the colors back into self.layer_store
+            layer = temp_queue.serve()
+            self.layer_store.append(layer)
         return color
 
     def special(self):
-        self.reverse=True
+        temp_stack = ArrayStack(len(self.layer_store))
+        while self.layer_store.is_empty() == False:
+            layer = self.layer_store.serve()
+            temp_stack.push(layer)
+        while temp_stack.is_empty() == False:
+            layer = temp_stack.pop()
+            self.layer_store.append(layer)
 
 class SequenceLayerStore(LayerStore):
     """
@@ -157,29 +154,26 @@ class SequenceLayerStore(LayerStore):
                 return True
         return False
 
-    def special(self):
-        self.median=True
-
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
         color=start
-        if self.median:#take the name of the layer in layer store. then find the value at the middle. then search layer store for a layer with that name
-            temp=ArraySortedList( len(9) )
-            pass
-        else:
-            temp_queue = CircularQueue(len(self.layer_store))
-            while self.layer_store.is_empty() == False:  # serving it and applying color one by one, this loop empties the self.layer_store
-                layer = self.layer_store.delete_at_index()
-                color = layer.apply(color, timestamp, x, y)
-                temp_queue.append(layer)
-            while temp_queue.is_empty() == False:  # storing all the colors back into self.layer_store
-                layer = temp_queue.serve()
-                self.layer_store.append(layer)
-        #pakai gretaer misal ad alist isi [b,a]
-        #greater utk b=1, greater utk a=0
-        #karena greater utk b=1 makan b ditaruh di index 1
+        if self.layer_store.is_empty()==False:
+            for i in range(len(self.layer_store)):
+                layer = self.layer_store[i].value
+                color = layer.apply(start,timestamp,x,y)
+        return color
 
     def special(self):
-        
+        lex_order_layer= ArraySortedList(len(self.layer_store))
+        for i in range(len(self.layer_store)):
+            greater=0
+            for j in range(len(self.layer_store)):
+                if self.layer_store[i].value.name>self.layer_store[j].value.name:
+                    greater=greater+1
+            item=ListItem(self.layer_store[i],greater)
+            lex_order_layer.add(item)
+        median_index=len(self.layer_store)//2
+        self.layer_store.delete_at_index(median_index)
+
 
 
 

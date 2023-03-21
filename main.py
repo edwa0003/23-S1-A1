@@ -302,6 +302,9 @@ class MyWindow(arcade.Window):
         px: x position of the brush.
         py: y position of the brush.
         """
+        for row in self.grid:
+            if row.
+            for column in self.grid:
 
         pass
 
