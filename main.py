@@ -302,6 +302,7 @@ class MyWindow(arcade.Window):
         px: x position of the brush.
         py: y position of the brush.
         """
+
         pass
 
     def on_undo(self):

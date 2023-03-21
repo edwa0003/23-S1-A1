@@ -1,7 +1,13 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
 from layer_util import Layer
+from layers import invert
+from data_structures.queue_adt import CircularQueue
+from data_structures.stack_adt import ArrayStack
+from data_structures.array_sorted_list import ArraySortedList
+from data_structures.sorted_list_adt import ListItem
 
+from layers import *
 class LayerStore(ABC):
 
     def __init__(self) -> None:
@@ -16,10 +22,13 @@ class LayerStore(ABC):
         pass
 
     @abstractmethod
-    def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
+    def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:#look at color apply. Does x and y matter ? read test set layer and main to find out
         """
         Returns the colour this square should show, given the current layers.
         """
+        #returns the color which is a tuple containing 3 values at coordinate x and y
+        #start is the starting color which is at the bottom of the stack
+        #timestamp,if for example it is rainbow need timestamp at time ... what is the color of that square
         pass
 
     @abstractmethod
@@ -44,8 +53,32 @@ class SetLayerStore(LayerStore):
     - erase: Remove the single layer. Ignore what is currently selected.
     - special: Invert the colour output.
     """
+    def __init__(self): #just a variable
+        self.layer = None
+        self.invert = False
 
-    pass
+    def add(self, layer: Layer) -> bool:
+        if self.layer == None:
+            self.layer = layer
+            return True
+        return False
+
+    def erase(self, layer: Layer) -> bool:
+        if self.layer == None:
+            return False
+        self.layer=None
+        return True
+
+    def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]: #returns the color at that time and coordiante, need to connect this to grid
+        color= start
+        if self.layer != None:
+            color = self.layer.apply(color, timestamp, x, y)
+        if self.invert:
+            color=invert.apply(color, timestamp, x, y)
+        return color
+
+    def special(self):
+        self.invert=True
 
 class AdditiveLayerStore(LayerStore):
     """
@@ -54,8 +87,44 @@ class AdditiveLayerStore(LayerStore):
     - erase: Remove the first layer that was added. Ignore what is currently selected.
     - special: Reverse the order of current layers (first becomes last, etc.)
     """
+    #use queuqe because erase
+    def __init__(self):
+        layer_store=CircularQueue(100*20)
+        self.layer_store = layer_store
+        self.color = None
+        self.reverse = False
 
-    pass
+    def add(self, layer: Layer) -> bool:
+        self.layer_store.append(layer)
+        return self.la
+
+    def erase(self, layer: Layer) -> bool:
+        self.layer_store.serve()
+
+    def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
+        color=start
+        if self.reverse:
+            temp_stack = ArrayStack(len(self.layer_store))
+            while self.layer_store.is_empty() == False:
+                layer = self.layer_store.serve()
+                color = layer.apply(color,timestamp,x,y)
+                temp_stack.push(layer)
+            while temp_stack.is_empty() == False:
+                layer = temp_stack.pop()
+                self.layer_store.append(layer)
+        else:
+            temp_queue= CircularQueue( len(self.layer_store) )
+            while self.layer_store.is_empty() == False: #serving it and applying color one by one, this loop empties the self.layer_store
+                layer = self.layer_store.serve()
+                color = layer.apply(color,timestamp,x,y)
+                temp_queue.append(layer)
+            while temp_queue.is_empty() == False: #storing all the colors back into self.layer_store
+                layer = temp_queue.serve()
+                self.layer_store.append(layer)
+        return color
+
+    def special(self):
+        self.reverse=True
 
 class SequenceLayerStore(LayerStore):
     """
@@ -66,5 +135,52 @@ class SequenceLayerStore(LayerStore):
         Of all currently applied layers, remove the one with median `name`.
         In the event of two layers being the median names, pick the lexicographically smaller one.
     """
+    #for example add black then add blue, because the index of blue is higer than black the square will become blue.
+    #this has 9 layers that is all the colors and effects on layers.py. the index is from top is 1 bottom is 9.
+    def __init__(self):
+        self.layer_store=ArraySortedList(9)
+        self.median=False
 
-    pass
+    def add(self, layer: Layer) -> bool:
+        layer = ListItem(layer, layer.index)
+        if self.layer_store.is_full()==False:
+            if layer not in self.layer_store:
+                self.layer_store.add(layer)
+                return True
+        return False
+
+    def erase(self, layer: Layer) -> bool:
+        layer =ListItem(layer,layer.index)
+        if self.layer_store.is_empty()==False:
+            if layer in self.layer_store:
+                self.layer_store.remove()
+                return True
+        return False
+
+    def special(self):
+        self.median=True
+
+    def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
+        color=start
+        if self.median:#take the name of the layer in layer store. then find the value at the middle. then search layer store for a layer with that name
+            temp=ArraySortedList( len(9) )
+            pass
+        else:
+            temp_queue = CircularQueue(len(self.layer_store))
+            while self.layer_store.is_empty() == False:  # serving it and applying color one by one, this loop empties the self.layer_store
+                layer = self.layer_store.delete_at_index()
+                color = layer.apply(color, timestamp, x, y)
+                temp_queue.append(layer)
+            while temp_queue.is_empty() == False:  # storing all the colors back into self.layer_store
+                layer = temp_queue.serve()
+                self.layer_store.append(layer)
+        #pakai gretaer misal ad alist isi [b,a]
+        #greater utk b=1, greater utk a=0
+        #karena greater utk b=1 makan b ditaruh di index 1
+
+    def special(self):
+        
+
+
+
+

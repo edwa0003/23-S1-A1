@@ -21,7 +21,7 @@ from typing import TypeVar, Generic
 
 T = TypeVar('T')
 
-class ArrayR(Generic[T]):
+class ArrayR(Generic[T]): #sombeody used this to make grid
     def __init__(self, length: int) -> None:
         """ Creates an array of references to objects of the given length
         :complexity: O(length) for best/worst case to initialise to None

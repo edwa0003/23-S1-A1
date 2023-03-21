@@ -30,7 +30,7 @@ class TestSetLayer(unittest.TestCase):
         s = SetLayerStore()
         s.add(black)
         s.erase(lighten)
-        self.assertEqual(s.get_color((25, 25, 25), 24, 4, 100), (25, 25, 25))
+        self.assertEqual(s.get_color((25, 25, 25), 24, 4, 100), (25, 25, 25))#1st one is the true output, 2nd one is the output that we want
 
     @number("1.4")
     def test_special(self):
