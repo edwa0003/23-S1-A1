@@ -7,7 +7,6 @@ from data_structures.stack_adt import ArrayStack
 from data_structures.array_sorted_list import ArraySortedList
 from data_structures.sorted_list_adt import ListItem
 
-from layers import *
 class LayerStore(ABC):
 
     def __init__(self) -> None:
@@ -54,30 +53,32 @@ class SetLayerStore(LayerStore):
     - special: Invert the colour output.
     """
     def __init__(self): #just a variable
-        self.layer = None
+        self.layer_store = None
         self.invert = False
 
     def add(self, layer: Layer) -> bool:
-        if self.layer == None:
-            self.layer = layer
-            return True
-        return False
+        if self.layer_store==layer:
+            return False
+        self.layer_store = layer
+        return True
 
     def erase(self, layer: Layer) -> bool:
-        if self.layer == None:
+        if self.layer_store == None:
             return False
         self.layer=None
         return True
 
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]: #returns the color at that time and coordiante, need to connect this to grid
         color= start
-        if self.layer != None:
-            color = self.layer.apply(color, timestamp, x, y)
+        if self.layer_store != None:
+            color = self.layer_store.apply(color, timestamp, x, y)
         if self.invert:
             color=invert.apply(color, timestamp, x, y)
         return color
 
     def special(self):
+        if self.invert:
+            self.invert=False
         self.invert=True
 
 class AdditiveLayerStore(LayerStore):
