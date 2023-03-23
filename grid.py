@@ -35,13 +35,13 @@ class Grid:
     def __getitem__(self, key): #this for [x][y]
         return self.grid[key]
 
-    def make_grid(self,draw_style,x,y):
+    def make_grid(self,draw_style,x,y): #after paint create another grid so for loop inside for loop. the inside for loop creates a new grid.
         #make an empty list with len x*y, then put y amount of empty list inside.
         #then inside each one of those empty list, then put empty stacks inside each.
         #use referential array
         vert_dim=x
         hor_dim=y
-        grid = ArrayR(hor_dim*vert_dim)
+        grid = ArrayR(vert_dim)
         if draw_style=='SET':
             layer_store_type=SetLayerStore()
         elif draw_style=='ADD':
@@ -64,7 +64,7 @@ class Grid:
         if the brush size is already MAX_BRUSH,
         then do nothing.
         """
-        if self.brush_size>self.MAX_BRUSH:
+        if self.brush_size==self.MAX_BRUSH:
             self.brush_size=self.MAX_BRUSH
         self.brush_size=self.brush_size+1
 
@@ -74,7 +74,7 @@ class Grid:
         if the brush size is already MIN_BRUSH,
         then do nothing.
         """
-        if self.brush_size<self.MIN_BRUSH:
+        if self.brush_size==self.MIN_BRUSH:
             self.brush_size=self.MIN_BRUSH
         self.brush_size=self.brush_size-1
 
@@ -82,7 +82,6 @@ class Grid:
         """
         Activate the special affect on all grid squares.
         """
-        raise NotImplementedError()
-
-grid =Grid('SET',5,4)
-print(grid)
+        for x in self.grid:
+            for y in self.grid:
+                self.grid[x][y].special()

@@ -50,7 +50,7 @@ class TestGrid(unittest.TestCase):
         fw.on_decrease_brush_size()
         fw.on_paint(green, 1, 4)
         control_grid[1][4].add(green)
-        self.assertGridEqual(grid, control_grid)
+        self.assertGridEqual(grid, control_grid) #ini salah karena belum bikin on paint
 
         # Decrease past 0 - not possible.
         fw.on_decrease_brush_size()

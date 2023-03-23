@@ -52,26 +52,29 @@ class SetLayerStore(LayerStore):
     - erase: Remove the single layer. Ignore what is currently selected.
     - special: Invert the colour output.
     """
-    def __init__(self): #just a variable
-        self.layer_store = None
+    def __init__(self): #just a variable, coba bikin attribute slef oclor
+        self.layer_store = ArrayStack(1)
         self.invert = False
 
     def add(self, layer: Layer) -> bool:
         if self.layer_store==layer:
             return False
-        self.layer_store = layer
+        if self.layer_store.is_empty()==False:
+            self.layer_store.pop()
+        self.layer_store.push(layer)
         return True
 
     def erase(self, layer: Layer) -> bool:
         if self.layer_store == None:
             return False
-        self.layer=None
+        self.layer_store.pop()
         return True
 
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]: #returns the color at that time and coordiante, need to connect this to grid
-        color= start
-        if self.layer_store != None:
-            color = self.layer_store.apply(color, timestamp, x, y)
+        color= start #disini pakai self.color
+        if self.layer_store.is_full():
+            layer=self.layer_store.peek()
+            color = layer.apply(color, timestamp, x, y)
         if self.invert:
             color=invert.apply(color, timestamp, x, y)
         return color
