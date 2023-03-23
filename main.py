@@ -302,11 +302,11 @@ class MyWindow(arcade.Window):
         px: x position of the brush.
         py: y position of the brush.
         """
-        for y in range( MyWindow.GRID_SIZE_Y):
-            for x in range(MyWindow.GRID_SIZE_X):
-                man_dist=abs(x-px)+abs(y-py)
+        for x in range( self.grid.x):
+            for y in range(self.grid.y):
+                man_dist=abs(px-x)+abs(py-y)
                 if man_dist<=self.grid.brush_size:
-                    self.grid[y][x].add(layer)
+                    self.grid[x][y].add(layer)
 
     def on_undo(self):
         """Called when an undo is requested."""

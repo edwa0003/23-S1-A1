@@ -42,20 +42,19 @@ class Grid:
         vert_dim=x
         hor_dim=y
         grid = ArrayR(vert_dim)
-        if draw_style=='SET':
-            layer_store_type=SetLayerStore()
-        elif draw_style=='ADD':
-            layer_store_type=AdditiveLayerStore()
-        elif draw_style=='SEQUENCE':
-            layer_store_type=SequenceLayerStore()
-        else:
-            raise Exception('wrong draw style')
         for vert_in in range(vert_dim):
             row=ArrayR(hor_dim)
             grid[vert_in]=row
             for hor_in in range(hor_dim):
+                if draw_style == 'SET':
+                    layer_store_type = SetLayerStore()
+                elif draw_style == 'ADD':
+                    layer_store_type = AdditiveLayerStore()
+                elif draw_style == 'SEQUENCE':
+                    layer_store_type = SequenceLayerStore()
+                else:
+                    raise Exception('wrong draw style')
                 row[hor_in]=layer_store_type
-            hor_in=0
         return grid
 
     def increase_brush_size(self):
@@ -64,9 +63,8 @@ class Grid:
         if the brush size is already MAX_BRUSH,
         then do nothing.
         """
-        if self.brush_size==self.MAX_BRUSH:
-            self.brush_size=self.MAX_BRUSH
-        self.brush_size=self.brush_size+1
+        if self.brush_size<Grid.MAX_BRUSH:
+            self.brush_size=self.brush_size+1
 
     def decrease_brush_size(self):
         """
@@ -74,9 +72,8 @@ class Grid:
         if the brush size is already MIN_BRUSH,
         then do nothing.
         """
-        if self.brush_size==self.MIN_BRUSH:
-            self.brush_size=self.MIN_BRUSH
-        self.brush_size=self.brush_size-1
+        if self.brush_size>Grid.MIN_BRUSH:
+            self.brush_size=self.brush_size-1
 
     def special(self):
         """
