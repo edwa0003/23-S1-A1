@@ -1,9 +1,11 @@
 from __future__ import annotations
-from action import PaintAction
 from grid import Grid
+from data_structures.queue_adt import CircularQueue
+from action import PaintAction
 
 class ReplayTracker:
-
+    def __init__(self):
+        self.replay_queue = CircularQueue(10000)
 
     def start_replay(self) -> None:
         """
@@ -20,7 +22,8 @@ class ReplayTracker:
         `is_undo` specifies whether the action was an undo action or not.
         Special, Redo, and Draw all have this is False.
         """
-        pass
+        if not self.replay_queue.is_full():
+            self.replay_queue.append((action,is_undo))
 
     def play_next_action(self, grid: Grid) -> bool:
         """
@@ -29,7 +32,14 @@ class ReplayTracker:
             - If there were no more actions to play, and so nothing happened, return True.
             - Otherwise, return False.
         """
-        pass
+        if not self.replay_queue.is_empty():
+            last_action=self.replay_queue.serve()
+            if last_action[1]==True:
+                last_action[0].undo_apply(grid)
+            else:
+                last_action[0].redo_apply(grid)
+            return False
+        return True
 
 if __name__ == "__main__":
     action1 = PaintAction([], is_special=True)

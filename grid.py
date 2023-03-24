@@ -47,14 +47,14 @@ class Grid:
             grid[vert_in]=row
             for hor_in in range(hor_dim):
                 if draw_style == 'SET':
-                    layer_store_type = SetLayerStore()
+                    layer_store_type = SetLayerStore
                 elif draw_style == 'ADD':
-                    layer_store_type = AdditiveLayerStore()
+                    layer_store_type = AdditiveLayerStore
                 elif draw_style == 'SEQUENCE':
-                    layer_store_type = SequenceLayerStore()
+                    layer_store_type = SequenceLayerStore
                 else:
                     raise Exception('wrong draw style')
-                row[hor_in]=layer_store_type
+                grid[vert_in][hor_in]=layer_store_type()
         return grid
 
     def increase_brush_size(self):
@@ -79,6 +79,6 @@ class Grid:
         """
         Activate the special affect on all grid squares.
         """
-        for x in self.grid:
-            for y in self.grid:
+        for x in range(self.x):
+            for y in range(self.y):
                 self.grid[x][y].special()

@@ -1,12 +1,12 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from layer_util import Layer
+from layer_util import Layer,get_layers
 from layers import invert
 from data_structures.queue_adt import CircularQueue
 from data_structures.stack_adt import ArrayStack
 from data_structures.array_sorted_list import ArraySortedList
 from data_structures.sorted_list_adt import ListItem
-
+from data_structures.bset import BSet
 class LayerStore(ABC):
 
     def __init__(self) -> None:
@@ -53,36 +53,31 @@ class SetLayerStore(LayerStore):
     - special: Invert the colour output.
     """
     def __init__(self): #just a variable, coba bikin attribute slef oclor
-        self.layer_store = ArrayStack(1)
+        self.layer_store = None
         self.invert = False
 
     def add(self, layer: Layer) -> bool:
         if self.layer_store==layer:
             return False
-        if self.layer_store.is_empty()==False:
-            self.layer_store.pop()
-        self.layer_store.push(layer)
+        self.layer_store=layer
         return True
 
     def erase(self, layer: Layer) -> bool:
         if self.layer_store == None:
             return False
-        self.layer_store.pop()
+        self.layer_store=None
         return True
 
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]: #returns the color at that time and coordiante, need to connect this to grid
         color= start #disini pakai self.color
-        if self.layer_store.is_full():
-            layer=self.layer_store.peek()
-            color = layer.apply(color, timestamp, x, y)
+        if self.layer_store!=None:
+            color = self.layer_store.apply(color, timestamp, x, y)
         if self.invert:
             color=invert.apply(color, timestamp, x, y)
         return color
 
     def special(self):
-        if self.invert:
-            self.invert=False
-        self.invert=True
+        self.invert= not self.invert
 
 class AdditiveLayerStore(LayerStore):
     """
@@ -139,44 +134,38 @@ class SequenceLayerStore(LayerStore):
     #for example add black then add blue, because the index of blue is higer than black the square will become blue.
     #this has 9 layers that is all the colors and effects on layers.py. the index is from top is 1 bottom is 9.
     def __init__(self):
-        self.layer_store=ArraySortedList(9)
-        self.median=False
+        self.layer_store=BSet()
 
-    def add(self, layer: Layer) -> bool:
-        layer = ListItem(layer, layer.index)
-        if self.layer_store.is_full()==False:
-            if layer not in self.layer_store:
-                self.layer_store.add(layer)
-                return True
+    def add(self, layer: Layer) -> bool: #
+        if layer.index+1 not in self.layer_store:
+            self.layer_store.add(layer.index+1)
+            return True
         return False
 
     def erase(self, layer: Layer) -> bool:
-        layer =ListItem(layer,layer.index)
-        if self.layer_store.is_empty()==False:
-            if layer in self.layer_store:
-                self.layer_store.remove()
-                return True
+        if layer.index in self.layer_store:
+            self.layer_store.remove(layer.index+1)
+            return True
         return False
 
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]:
         color=start
-        if self.layer_store.is_empty()==False:
-            for i in range(len(self.layer_store)):
-                layer = self.layer_store[i].value
-                color = layer.apply(start,timestamp,x,y)
+        for item in range(1, self.layer_store.elems.bit_length() + 1):
+            if item in self.layer_store:
+                color = get_layers()[item-1].apply(color, timestamp,x,y)
         return color
 
     def special(self):
-        lex_order_layer= ArraySortedList(len(self.layer_store))
-        for i in range(len(self.layer_store)):
-            greater=0
-            for j in range(len(self.layer_store)):
-                if self.layer_store[i].value.name>self.layer_store[j].value.name:
-                    greater=greater+1
-            item=ListItem(self.layer_store[i],greater)
-            lex_order_layer.add(item)
-        median_index=len(self.layer_store)//2
-        self.layer_store.delete_at_index(median_index)
+        sorted_layer=ArraySortedList(len(self.layer_store))
+        if not self.layer_store.is_empty():
+            for layer in get_layers():
+                if layer!=None and layer.index+1 in self.layer_store:
+                    layer_list_item=ListItem(layer,layer.name)
+                    sorted_layer.add(layer_list_item)
+            median_index=int( (len(sorted_layer)/2)-0.5)
+            self.layer_store.remove(sorted_layer[median_index].value.index + 1)
+
+
 
 
 
