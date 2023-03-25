@@ -33,7 +33,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python tests.Python tests for test_set_layer.TestSetLayer.test_no_layer">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="23-S1-A1" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -53,20 +53,6 @@
       <option name="MODULE_MODE" value="false" />
       <option name="REDIRECT_INPUT" value="false" />
       <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for test_add_layer.TestAddLayer" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="23-S1-A1" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_layer_stores" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_add_layer.TestAddLayer&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <configuration name="Python tests for test_replay.TestReplay" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -97,7 +83,7 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_set_layer.TestSetLayer.test_special" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+    <configuration name="Python tests for test_set_layer.TestSetLayer.test_no_layer" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="23-S1-A1" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -107,17 +93,31 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_set_layer.TestSetLayer.test_special&quot;" />
+      <option name="_new_target" value="&quot;test_set_layer.TestSetLayer.test_no_layer&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Python tests for test_undo.TestUndo" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="23-S1-A1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_misc" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_undo.TestUndo&quot;" />
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.Python tests for test_set_layer.TestSetLayer.test_no_layer" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python tests.Python tests for test_set_layer.TestSetLayer" />
-        <item itemvalue="Python tests.Python tests for test_set_layer.TestSetLayer.test_special" />
-        <item itemvalue="Python tests.Python tests for test_add_layer.TestAddLayer" />
         <item itemvalue="Python tests.Python tests for test_replay.TestReplay" />
+        <item itemvalue="Python tests.Python tests for test_undo.TestUndo" />
+        <item itemvalue="Python tests.Python tests for test_set_layer.TestSetLayer" />
       </list>
     </recent_temporary>
   </component>

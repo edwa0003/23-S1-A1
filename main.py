@@ -134,7 +134,7 @@ class MyWindow(arcade.Window):
                     self.GRID_SQ_WIDTH * (x+1),
                     self.GRID_SQ_HEIGHT * (y+1),
                     self.GRID_SQ_HEIGHT * y,
-                    self.grid[x][y].get_color(self.BG[:], self.timestamp, x, y),
+                    self.grid[x][y].get_color(self.BG[:], self.timestamp, x, y) #print('self.grid[x][y] is bool'+isinstance(self.grid[x][y],bool) )
                 )
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int) -> None:
@@ -322,15 +322,21 @@ class MyWindow(arcade.Window):
 
     def on_undo(self):
         """Called when an undo is requested."""
-        self.undo_tracker.undo(self.grid)
+        action=self.undo_tracker.undo(self.grid)
+        if action!=None:
+            self.replay_tracker.add_action(action,True)
 
     def on_redo(self):
         """Called when a redo is requested."""
-        self.undo_tracker.redo(self.grid)
+        action=self.undo_tracker.redo(self.grid)
+        if action!=None:
+            self.replay_tracker.add_action(action,False)
 
     def on_special(self):
         """Called when the special action is requested."""
         self.grid.special()
+        self.undo_tracker.add_action(PaintAction(is_special=True))
+        self.replay_tracker.add_action(PaintAction(is_special=True))
 
     def on_replay_start(self):
         """Called when the replay starting is requested."""
