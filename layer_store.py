@@ -72,6 +72,7 @@ class SetLayerStore(LayerStore):
         color= start #disini pakai self.color
         #print('self layer store is bool',isinstance(self.layer_store,bool))
         if self.layer_store!=None:
+            #print(self.layer_store)
             color = self.layer_store.apply(color, timestamp, x, y)
         if self.invert:
             color=invert.apply(color, timestamp, x, y)

@@ -41,8 +41,7 @@ class MyWindow(arcade.Window):
         self.replay_timer = 0
         self.on_init()
 
-        self.undo_tracker=UndoTracker()
-        self.replay_tracker=ReplayTracker()
+
 
     def reset(self) -> None:
         """Reset the screen."""
@@ -293,11 +292,16 @@ class MyWindow(arcade.Window):
 
     def on_init(self):
         """Initialisation that occurs after the system initialisation."""
-        pass
+        self.undo_tracker = UndoTracker()
+        self.replay_tracker = ReplayTracker()
+
+
 
     def on_reset(self):
         """Called when a window reset is requested."""
-        pass
+        self.undo_tracker = UndoTracker()
+        self.replay_tracker = ReplayTracker()
+
 
     def on_paint(self, layer: Layer, px, py):
         """
@@ -315,7 +319,7 @@ class MyWindow(arcade.Window):
                 if man_dist<=self.grid.brush_size:
                     painted_square=self.grid[x][y].add(layer)
                     if painted_square:
-                        paint_square_step=PaintStep((x,y),painted_square)
+                        paint_square_step=PaintStep((x,y),layer)
                         paint_step_list.add_step(paint_square_step)
         self.undo_tracker.add_action(paint_step_list)
         self.replay_tracker.add_action(paint_step_list)
@@ -330,7 +334,7 @@ class MyWindow(arcade.Window):
         """Called when a redo is requested."""
         action=self.undo_tracker.redo(self.grid)
         if action!=None:
-            self.replay_tracker.add_action(action,False)
+            self.replay_tracker.add_action(action)
 
     def on_special(self):
         """Called when the special action is requested."""
