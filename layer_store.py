@@ -70,6 +70,7 @@ class SetLayerStore(LayerStore):
 
     def get_color(self, start, timestamp, x, y) -> tuple[int, int, int]: #returns the color at that time and coordiante, need to connect this to grid
         color= start #disini pakai self.color
+        print('self layer store is bool',isinstance(self.layer_store,bool))
         if self.layer_store!=None:
             color = self.layer_store.apply(color, timestamp, x, y)
         if self.invert:

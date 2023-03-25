@@ -33,7 +33,28 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python tests.Python tests for test_add_layer.TestAddLayer">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="23-S1-A1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="Python tests for test_add_layer.TestAddLayer" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="23-S1-A1" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -62,34 +83,6 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
-    <configuration name="Python tests for test_replay.TestReplay.test_advanced" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="23-S1-A1" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_misc" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_replay.TestReplay.test_advanced&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
-    <configuration name="Python tests for test_seq_layer.TestSeqLayer" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
-      <module name="23-S1-A1" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_layer_stores" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="_new_additionalArguments" value="&quot;&quot;" />
-      <option name="_new_target" value="&quot;test_seq_layer.TestSeqLayer&quot;" />
-      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
-      <method v="2" />
-    </configuration>
     <configuration name="Python tests for test_set_layer.TestSetLayer" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
       <module name="23-S1-A1" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -104,13 +97,27 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="Python tests for test_set_layer.TestSetLayer.test_special" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
+      <module name="23-S1-A1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/test_layer_stores" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_set_layer.TestSetLayer.test_special&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python tests.Python tests for test_add_layer.TestAddLayer" />
-        <item itemvalue="Python tests.Python tests for test_seq_layer.TestSeqLayer" />
+        <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Python tests for test_set_layer.TestSetLayer" />
+        <item itemvalue="Python tests.Python tests for test_set_layer.TestSetLayer.test_special" />
+        <item itemvalue="Python tests.Python tests for test_add_layer.TestAddLayer" />
         <item itemvalue="Python tests.Python tests for test_replay.TestReplay" />
-        <item itemvalue="Python tests.Python tests for test_replay.TestReplay.test_advanced" />
       </list>
     </recent_temporary>
   </component>
