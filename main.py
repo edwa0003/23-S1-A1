@@ -317,8 +317,8 @@ class MyWindow(arcade.Window):
                     if painted_square:
                         paint_square_step=PaintStep((x,y),painted_square)
                         paint_step_list.add_step(paint_square_step)
-            self.undo_tracker.add_action(paint_step_list)
-            self.replay_tracker.add_action(paint_step_list)
+        self.undo_tracker.add_action(paint_step_list)
+        self.replay_tracker.add_action(paint_step_list)
 
     def on_undo(self):
         """Called when an undo is requested."""
@@ -340,17 +340,14 @@ class MyWindow(arcade.Window):
 
     def on_replay_start(self):
         """Called when the replay starting is requested."""
-        self.replay_tracker.start_replay()
+        pass
 
     def on_replay_next_step(self) -> bool:
         """
         Called when the next step of the replay is requested.
         Returns whether the replay is finished.
         """
-        replay_bool=False
-        while replay_bool==False:
-            replay_bool=self.replay_tracker.play_next_action(self.grid)
-        return True
+        return self.replay_tracker.play_next_action(self.grid)
 
     def on_increase_brush_size(self):
         """Called when an increase to the brush size is requested."""
