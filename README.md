@@ -8,11 +8,8 @@
 
 ## Group Members
 
-- Jackson Goerner (jackson.goerner@monash.edu)
-- Saksham Nagpal (saksham.nagpal@monash.edu)
-- Alexey Ignatiev (alexey.ignatiev@monash.edu)
-- Brendon Taylor (brendon.taylor@monash.edu)
-- coba ke 2
+- Edward Priyatna(edwa0003@student.monash.edu)
+
 
 ## Setup
 

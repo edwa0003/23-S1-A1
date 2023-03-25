@@ -33,7 +33,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.complex">
+  <component name="RunManager" selected="Python.styles">
     <configuration name="basic" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="23-S1-A1" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -134,8 +134,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.complex" />
         <item itemvalue="Python.styles" />
+        <item itemvalue="Python.complex" />
         <item itemvalue="Python.basic" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python tests.Python tests for test_window.TestGrid" />
