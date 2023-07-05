@@ -4,6 +4,9 @@ import math
 from grid import Grid
 from layer_util import get_layers, Layer
 from layers import lighten
+from undo import UndoTracker
+from replay import ReplayTracker
+from action import PaintStep,PaintAction
 
 class MyWindow(arcade.Window):
     """ Painter Window """
@@ -37,6 +40,8 @@ class MyWindow(arcade.Window):
         self.enable_ui = True
         self.replay_timer = 0
         self.on_init()
+
+
 
     def reset(self) -> None:
         """Reset the screen."""
@@ -128,7 +133,7 @@ class MyWindow(arcade.Window):
                     self.GRID_SQ_WIDTH * (x+1),
                     self.GRID_SQ_HEIGHT * (y+1),
                     self.GRID_SQ_HEIGHT * y,
-                    self.grid[x][y].get_color(self.BG[:], self.timestamp, x, y),
+                    self.grid[x][y].get_color(self.BG[:], self.timestamp, x, y) #print('self.grid[x][y] is bool'+isinstance(self.grid[x][y],bool) )
                 )
 
     def on_mouse_press(self, x: int, y: int, button: int, modifiers: int) -> None:
@@ -286,12 +291,23 @@ class MyWindow(arcade.Window):
     # STUDENT PART
 
     def on_init(self):
-        """Initialisation that occurs after the system initialisation."""
-        pass
+        """Initialisation that occurs after the system initialisation.
+        no arguments, raises none, returns none
+        - complexity: Always O(UndoTracker.__init__+ReplayTracker.__init__)
+        """
+        self.undo_tracker = UndoTracker()
+        self.replay_tracker = ReplayTracker()
+
+
 
     def on_reset(self):
-        """Called when a window reset is requested."""
-        pass
+        """Called when a window reset is requested.
+        no arguments,raises none, returns none
+        - complexity: Always O(UndoTracker.__init__+ReplayTracker.__init__)
+        """
+        self.undo_tracker = UndoTracker()
+        self.replay_tracker = ReplayTracker()
+
 
     def on_paint(self, layer: Layer, px, py):
         """
@@ -301,20 +317,66 @@ class MyWindow(arcade.Window):
         layer: The layer being applied.
         px: x position of the brush.
         py: y position of the brush.
+
+        Args:
+        -layer: The layer being applied.
+        -px: x position of the brush.
+        -py: y position of the brush.
+        Raises: None
+        Returns: Nothing. But paints the layer stores.
+        Complexity:
+        - worst: O(self.grid.x*self.grid.y(comp+layer_store.add+PaintAction.add_step) + undo_tracker.add_action+replay_tracker.add_action).
+        x and y are the dimensions of the grid. meaning it needs to loop through each layer stores.
+        - best: O( comp+layer_store.add+PaintAction.add_step + undo_tracker.add_action+replay_tracker.add_action )
+        when self.grid.x=1 and self.grid.y=1. meaning only need to loop through one layer store.
         """
-        pass
+        paint_step_list=PaintAction()
+        for x in range( self.grid.x):
+            for y in range(self.grid.y):
+                man_dist=abs(px-x)+abs(py-y)
+                if man_dist<=self.grid.brush_size:
+                    painted_square=self.grid[x][y].add(layer)
+                    if painted_square:
+                        paint_square_step=PaintStep((x,y),layer)
+                        paint_step_list.add_step(paint_square_step)
+        self.undo_tracker.add_action(paint_step_list)
+        self.replay_tracker.add_action(paint_step_list)
 
     def on_undo(self):
-        """Called when an undo is requested."""
-        pass
+        """Called when an undo is requested.
+        Args: None
+        Raises: None
+        Returns: Nothing. But does undo.
+        Complexity:
+        - always O(undo_tracker.undo +replay_tracker.add_action)
+        """
+        action=self.undo_tracker.undo(self.grid)
+        if action!=None:
+            self.replay_tracker.add_action(action,True)
 
     def on_redo(self):
-        """Called when a redo is requested."""
-        pass
+        """Called when a redo is requested.
+        Args: None
+        Raises: None
+        Returns: Nothing. But does undo.
+        Complexity:
+        - always O(undo_tracker.redo+replay_tracker.add_action)
+        """
+        action=self.undo_tracker.redo(self.grid)
+        if action!=None:
+            self.replay_tracker.add_action(action)
 
     def on_special(self):
-        """Called when the special action is requested."""
-        pass
+        """Called when the special action is requested.
+        Args: None
+        Raises: None
+        Returns: Nothing. But does undo.
+        Complexity:
+        - always O( Grid.special + undo_tracker.add_action + replay_tracker.add_action )
+        """
+        self.grid.special()
+        self.undo_tracker.add_action(PaintAction(is_special=True))
+        self.replay_tracker.add_action(PaintAction(is_special=True))
 
     def on_replay_start(self):
         """Called when the replay starting is requested."""
@@ -324,15 +386,32 @@ class MyWindow(arcade.Window):
         """
         Called when the next step of the replay is requested.
         Returns whether the replay is finished.
+        Args: None
+        Raises: None
+        Returns: Nothing. But does replay_tracker.play_next_action(self.grid).
+        Complexity:
+        - always O(replay_tracker.play_next_action)
         """
-        return True
+        return self.replay_tracker.play_next_action(self.grid)
 
     def on_increase_brush_size(self):
-        """Called when an increase to the brush size is requested."""
+        """Called when an increase to the brush size is requested.
+        Args: None
+        Raises: None
+        Returns: Nothing. But increases brush size.
+        Complexity:
+        - always O(Grid.increase_brush_size)
+        """
         self.grid.increase_brush_size()
 
     def on_decrease_brush_size(self):
-        """Called when a decrease to the brush size is requested."""
+        """Called when a decrease to the brush size is requested.
+        Args: None
+        Raises: None
+        Returns: Nothing. But decreases brush size.
+        Complexity:
+        - always O(Grid.decrease_brush_size())
+        """
         self.grid.decrease_brush_size()
 
 def main():
